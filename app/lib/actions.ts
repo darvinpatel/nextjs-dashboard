@@ -109,7 +109,7 @@ export async function createInvoice(prevState: State, formData: FormData) {
       await sql`DELETE FROM invoices WHERE id = ${id}`;
       revalidatePath('/dashboard/invoices');
       return { message: 'Deleted Invoice.' };
-    } catch (error) {
+    } catch {
       return { message: 'Database Error: Failed to Delete Invoice.' };
     }
   }
@@ -129,6 +129,5 @@ export async function createInvoice(prevState: State, formData: FormData) {
             return 'Something went wrong.';
         }
       }
-      throw error;
     }
   }
