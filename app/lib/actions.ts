@@ -109,25 +109,27 @@ export async function createInvoice(prevState: State, formData: FormData) {
       await sql`DELETE FROM invoices WHERE id = ${id}`;
       revalidatePath('/dashboard/invoices');
       return { message: 'Deleted Invoice.' };
-    } catch {
+    } catch (error) {
+      console.error('Database Error:', error);
       return { message: 'Database Error: Failed to Delete Invoice.' };
     }
-  }
-
-  export async function authenticate(
-    prevState: string | undefined,
-    formData: FormData,
-  ) {
-    try {
-      await signIn('credentials', formData);
-    } catch (error) {
-      if (error instanceof AuthError) {
-        switch (error.type) {
-          case 'CredentialsSignin':
-            return 'Invalid credentials.';
-          default:
-            return 'Something went wrong.';
+    
+    export async function authenticate(
+      prevState: string | undefined,
+      formData: FormData,
+    ) {
+      try {
+        await signIn('credentials', formData);
+      } catch (error) {
+        console.error('Authentication Error:', error);
+        if (error instanceof AuthError) {
+          switch (error.type) {
+            case 'CredentialsSignin':
+              return 'Invalid credentials.';
+            default:
+              return 'Something went wrong.';
+          }
         }
+        return 'Authentication failed.';
       }
     }
-  }
