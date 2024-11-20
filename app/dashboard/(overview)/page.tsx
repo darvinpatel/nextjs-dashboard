@@ -9,6 +9,11 @@ import { RevenueChartSkeleton,
          CardsSkeleton,
  } from '@/app/ui/skeletons';
 import { fetchCardData } from '@/app/lib/data';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Dashboard Overview',
+};
 
 export default async function Page() {
   
